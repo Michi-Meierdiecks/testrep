@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Einkaufsliste</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: black; 
+            color: white; 
+        }
+
+        h1 {
+            color: #4CAF50;
+        }
+
+        form {
+            max-width: 100%;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .strikethrough {
+            text-decoration: line-through;
+            color: red; 
+        }
+
+        @media (max-width: 600px) {
+            th, td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Einkaufsliste</h1>
+
+    <form id="einkaufsForm">
+        <label for="artikel">Artikel:</label>
+        <input type="text" id="artikel" name="artikel" required>
+
+        <label for="menge">Menge:</label>
+        <input type="text" id="menge" name="menge" required>
+
+        <button type="button" onclick="addToList()">Hinzufügen</button>
+    </form>
+
+    <table id="einkaufsListe">
+        <thead>
+            <tr>
+                <th>Artikel</th>
+                <th>Menge</th>
+                <th>Aktionen</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
+
+    <script>
+        function addToList() {
+            var artikel = document.getElementById("artikel").value;
+            var menge = document.getElementById("menge").value;
+
+            if (artikel && menge) {
+                var table = document.getElementById("einkaufsListe");
+                var newRow = table.insertRow(table.rows.length);
+                var cell1 = newRow.insertCell(0);
+                var cell2 = newRow.insertCell(1);
+                var cell3 = newRow.insertCell(2);
+
+                cell1.innerHTML = '<span id="item">' + artikel + '</span>'; 
+                cell2.innerHTML = menge;
+                cell3.innerHTML = '<button onclick="strikeThrough(this)">Streichen</button> ' +
+                                  '<button onclick="deleteRow(this)">Löschen</button>';
+
+                
+                document.getElementById("artikel").value = "";
+                document.getElementById("menge").value = "";
+            }
+        }
+
+        function strikeThrough(button) {
+            var row = button.parentNode.parentNode;
+            var itemCell = row.cells[0].getElementsByTagName('span')[0];
+            itemCell.classList.toggle('strikethrough');
+        }
+
+        function deleteRow(button) {
+            var row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+    </script>
+
+</body>
+</html>
